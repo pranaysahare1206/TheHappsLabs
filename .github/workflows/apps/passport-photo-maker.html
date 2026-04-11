@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Passport Photo Maker — MyHapps Labs</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07090E;--bg2:#0C1018;--card:#0F1520;--border:rgba(255,255,255,0.06);--accent:#00FFCC;--dim:#4A5568;--text:#E8EDF5;--mono:'DM Mono',monospace;--head:'Syne',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;overflow-x:hidden;}
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(7,9,14,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.logo{font-family:var(--head);font-size:18px;font-weight:800;color:var(--accent);text-decoration:none;letter-spacing:-0.02em;}
+.logo span{color:var(--dim);}
+.back{font-size:12px;color:var(--dim);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color 0.2s;}
+.back:hover{color:var(--accent);}
+
+.tabs{position:sticky;top:57px;z-index:90;background:rgba(7,9,14,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;}
+.tab{padding:13px 22px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:color 0.2s,border-color 0.2s;}
+.tab:hover{color:var(--accent);border-bottom-color:var(--accent);}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+.app-hero{padding:50px 40px 36px;max-width:860px;margin:0 auto;display:grid;grid-template-columns:86px 1fr;gap:28px;align-items:start;}
+.app-icon{width:86px;height:86px;border-radius:22px;background:rgba(0,255,204,0.08);border:1px solid rgba(0,255,204,0.15);display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0;}
+.app-name{font-family:var(--head);font-size:clamp(22px,4vw,32px);font-weight:800;margin-bottom:8px;}
+.app-sub{font-size:13px;color:var(--dim);line-height:1.7;margin-bottom:14px;}
+.app-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.atag{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:4px 12px;border-radius:20px;border:1px solid var(--border);color:var(--dim);}
+.atag.g{color:var(--accent);border-color:rgba(0,255,204,0.2);background:rgba(0,255,204,0.05);}
+.play-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#000;font-family:var(--mono);font-size:13px;font-weight:500;padding:12px 24px;border-radius:10px;text-decoration:none;transition:opacity 0.2s;}
+.play-btn:hover{opacity:0.85;}
+
+.body{max-width:860px;margin:0 auto;padding:0 40px 80px;}
+.sec{border-top:1px solid var(--border);padding:32px 0;}
+.sec-tag{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.sec-title{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:16px;}
+.sec p{font-size:13px;color:var(--dim);line-height:1.8;margin-bottom:10px;}
+.sec a{color:var(--accent);}
+.sec h3{font-family:var(--head);font-size:14px;font-weight:700;margin:20px 0 8px;}
+.sec ul{padding-left:18px;}
+.sec li{font-size:13px;color:var(--dim);line-height:1.8;margin-bottom:6px;}
+
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin-top:4px;}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;}
+.feat-icon{font-size:20px;margin-bottom:8px;}
+.feat-name{font-family:var(--head);font-size:13px;font-weight:700;margin-bottom:4px;}
+.feat-desc{font-size:11px;color:var(--dim);line-height:1.5;}
+
+/* Privacy link box */
+.privacy-box{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;text-decoration:none;color:inherit;transition:border-color 0.2s;}
+.privacy-box:hover{border-color:rgba(0,255,204,0.3);}
+.privacy-box-left{display:flex;align-items:center;gap:14px;}
+.privacy-box-icon{font-size:24px;}
+.privacy-box-title{font-family:var(--head);font-size:15px;font-weight:700;margin-bottom:3px;}
+.privacy-box-sub{font-size:12px;color:var(--dim);}
+.privacy-box-arrow{color:var(--accent);font-size:20px;}
+
+footer{padding:28px 40px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+footer span,footer a{font-size:11px;color:var(--dim);}
+footer a{text-decoration:none;transition:color 0.2s;}
+footer a:hover{color:var(--accent);}
+.footer-links{display:flex;gap:20px;}
+
+@media(max-width:640px){
+  nav,footer{padding:14px 20px;}
+  .app-hero{padding:36px 20px;grid-template-columns:64px 1fr;gap:16px;}
+  .app-icon{width:64px;height:64px;font-size:30px;}
+  .body{padding:0 20px 60px;}
+  .tab{padding:11px 14px;font-size:10px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="../index.html">MyHapps<span>Labs</span></a>
+  <a class="back" href="../index.html">← All Apps</a>
+</nav>
+
+<div class="tabs">
+  <a class="tab active" href="passport-photo-maker.html">Overview</a>
+  <a class="tab" href="passport-photo-maker.html#features">Features</a>
+  <a class="tab" href="passport-photo-maker.html#support">Support</a>
+  <a class="tab" href="passport-photo-maker-privacy.html">Privacy Policy</a>
+</div>
+
+<div class="app-hero">
+  <div class="app-icon">📸</div>
+  <div>
+    <div class="app-name">Simple Passport Photo Maker</div>
+    <div class="app-sub">Professional passport photos for any country, printed at 600 DPI — straight from your Android phone. No studio needed.</div>
+    <div class="app-tags">
+      <span class="atag g">Free</span>
+      <span class="atag">Android</span>
+      <span class="atag">Offline</span>
+      <span class="atag">v1.0</span>
+    </div>
+    <a class="play-btn" href="https://play.google.com/store/apps" target="_blank">↓ Download on Play Store</a>
+  </div>
+</div>
+
+<div class="body">
+
+  <div class="sec">
+    <div class="sec-tag">About</div>
+    <p>Simple Passport Photo Maker lets you take or select a photo, crop it to the exact passport format for your country, apply professional enhancements, and generate a ready-to-print A4 sheet — all on your device with no data sent anywhere.</p>
+    <p>Supports standard passport sizes for India, USA, UK, EU, Australia, China, Japan, South Korea and more.</p>
+  </div>
+
+  <div class="sec" id="features">
+    <div class="sec-tag">Features</div>
+    <div class="sec-title">What it does</div>
+    <div class="feat-grid">
+      <div class="feat"><div class="feat-icon">✂️</div><div class="feat-name">Smart Crop</div><div class="feat-desc">Drag & resize with locked passport aspect ratio</div></div>
+      <div class="feat"><div class="feat-icon">🖨️</div><div class="feat-name">Print-Ready A4</div><div class="feat-desc">600 DPI sheet with cut guides, multiple photos per page</div></div>
+      <div class="feat"><div class="feat-icon">🌍</div><div class="feat-name">All Countries</div><div class="feat-desc">35×45mm, 51×51mm, 40×60mm, 33×48mm and more</div></div>
+      <div class="feat"><div class="feat-icon">✨</div><div class="feat-name">HD Enhance</div><div class="feat-desc">Adjust exposure, clarity, sharpness and smoothness</div></div>
+      <div class="feat"><div class="feat-icon">💾</div><div class="feat-name">Save JPG / PDF</div><div class="feat-desc">Save to gallery or export PDF for professional printing</div></div>
+      <div class="feat"><div class="feat-icon">🔒</div><div class="feat-name">100% Offline</div><div class="feat-desc">No internet needed. Nothing uploaded, ever.</div></div>
+    </div>
+  </div>
+
+  <div class="sec" id="support">
+    <div class="sec-tag">Help</div>
+    <div class="sec-title">Support</div>
+    <p>Having trouble? Email us at <a href="mailto:themyhappslabs@zohomail.in">themyhappslabs@zohomail.in</a> — we reply within 48 hours Mon–Sat.</p>
+    <h3>Common Issues</h3>
+    <ul>
+      <li><strong style="color:var(--text)">PDF not saving?</strong> — Go to phone Settings → Apps → Passport Photo Maker → Permissions → allow Storage.</li>
+      <li><strong style="color:var(--text)">Photo looks blurry?</strong> — Use the Sharpness slider in the Enhancements panel before confirming crop.</li>
+      <li><strong style="color:var(--text)">Wrong photo size?</strong> — Select your country's size from the dropdown on the Print Setup screen.</li>
+      <li><strong style="color:var(--text)">Camera not opening?</strong> — Allow Camera permission in phone Settings → Apps → Passport Photo Maker → Permissions.</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <div class="sec-tag">Legal</div>
+    <div class="sec-title">Privacy Policy</div>
+    <a class="privacy-box" href="passport-photo-maker-privacy.html">
+      <div class="privacy-box-left">
+        <div class="privacy-box-icon">🔒</div>
+        <div>
+          <div class="privacy-box-title">Privacy Policy</div>
+          <div class="privacy-box-sub">Simple Passport Photo Maker · Last updated January 2025</div>
+        </div>
+      </div>
+      <div class="privacy-box-arrow">→</div>
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  <span>© 2025 MyHapps Labs</span>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="../terms.html">Terms</a>
+    <a href="passport-photo-maker-privacy.html">Privacy Policy</a>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyHapps Labs — Smart Apps, Simple Life</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07090E;--bg2:#0C1018;--card:#0F1520;--border:rgba(255,255,255,0.06);--accent:#00FFCC;--dim:#4A5568;--text:#E8EDF5;--mono:'DM Mono',monospace;--head:'Syne',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;overflow-x:hidden;}
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(7,9,14,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.logo{font-family:var(--head);font-size:18px;font-weight:800;color:var(--accent);text-decoration:none;letter-spacing:-0.02em;}
+.logo span{color:var(--dim);}
+.nav-links{display:flex;gap:28px;}
+.nav-links a{font-size:12px;color:var(--dim);text-decoration:none;letter-spacing:0.05em;transition:color 0.2s;}
+.nav-links a:hover{color:var(--accent);}
+.hero{padding:90px 40px 50px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(0,255,204,0.06) 0%,transparent 70%);pointer-events:none;}
+.hero-label{display:inline-block;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,255,204,0.2);padding:5px 14px;border-radius:20px;margin-bottom:24px;}
+h1{font-family:var(--head);font-size:clamp(38px,6vw,70px);font-weight:800;line-height:1.07;letter-spacing:-0.03em;margin-bottom:16px;}
+h1 em{font-style:normal;color:var(--accent);}
+.hero-sub{font-size:13px;color:var(--dim);line-height:1.8;max-width:420px;margin:0 auto 0;}
+.wrap{max-width:960px;margin:0 auto;padding:60px 40px;}
+.sec-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);margin-bottom:20px;}
+.apps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;}
+.app-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;cursor:pointer;text-decoration:none;color:inherit;display:block;transition:border-color 0.2s,transform 0.18s;position:relative;overflow:hidden;}
+.app-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,204,0.03),transparent);opacity:0;transition:opacity 0.2s;}
+.app-card:hover{border-color:rgba(0,255,204,0.25);transform:translateY(-2px);}
+.app-card:hover::after{opacity:1;}
+.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.card-icon{width:46px;height:46px;border-radius:12px;background:rgba(0,255,204,0.07);border:1px solid rgba(0,255,204,0.1);display:flex;align-items:center;justify-content:center;font-size:22px;}
+.card-arrow{color:var(--dim);font-size:18px;transition:transform 0.2s,color 0.2s;}
+.app-card:hover .card-arrow{transform:translateX(3px);color:var(--accent);}
+.card-name{font-family:var(--head);font-size:16px;font-weight:700;margin-bottom:6px;}
+.card-desc{font-size:12px;color:var(--dim);line-height:1.7;margin-bottom:14px;}
+.card-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.ctag{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid var(--border);color:var(--dim);}
+.ctag.live{background:rgba(0,255,204,0.07);color:var(--accent);border-color:rgba(0,255,204,0.2);}
+.soon{cursor:default;opacity:0.4;pointer-events:none;}
+.about-strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);padding:60px 40px;}
+.about-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;}
+.apoint{padding:20px;background:var(--card);border:1px solid var(--border);border-radius:14px;}
+.apoint-icon{font-size:22px;margin-bottom:10px;}
+.apoint-title{font-family:var(--head);font-size:15px;font-weight:700;margin-bottom:6px;}
+.apoint-desc{font-size:12px;color:var(--dim);line-height:1.6;}
+footer{padding:28px 40px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+footer span,footer a{font-size:11px;color:var(--dim);}
+footer a{text-decoration:none;transition:color 0.2s;}
+footer a:hover{color:var(--accent);}
+.footer-links{display:flex;gap:20px;}
+@media(max-width:640px){nav{padding:14px 20px;}.nav-links{gap:16px;}.hero{padding:70px 20px 40px;}.wrap{padding:40px 20px;}.about-strip{padding:40px 20px;}.about-inner{grid-template-columns:1fr;}footer{padding:20px;flex-direction:column;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">MyHapps<span>Labs</span></a>
+  <div class="nav-links">
+    <a href="#apps">Apps</a>
+    <a href="#about">About</a>
+    <a href="mailto:themyhappslabs@zohomail.in">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Independent App Studio · India</div>
+  <h1>Simple Apps.<br><em>Real Problems.</em></h1>
+  <p class="hero-sub">Lightweight Android utilities that work offline, respect your privacy, and do exactly what they say.</p>
+</div>
+
+<div class="wrap" id="apps">
+  <div class="sec-label">Our Apps</div>
+  <div class="apps-grid">
+
+    <!-- ══ APP 1 ══ -->
+    <a class="app-card" href="apps/passport-photo-maker.html">
+      <div class="card-top">
+        <div class="card-icon">📸</div>
+        <span class="card-arrow">→</span>
+      </div>
+      <div class="card-name">Simple Passport Photo Maker</div>
+      <div class="card-desc">Crop, enhance and print professional passport photos for any country — all offline, 600 DPI quality.</div>
+      <div class="card-tags">
+        <span class="ctag live">Live</span>
+        <span class="ctag">Android</span>
+        <span class="ctag">Free</span>
+      </div>
+    </a>
+
+    <!-- ══ ADD NEW APP CARD HERE — copy block above, change href to apps/your-app-name.html ══ -->
+
+    <!-- Placeholder -->
+    <div class="app-card soon">
+      <div class="card-top"><div class="card-icon" style="font-size:16px;color:var(--dim);">＋</div></div>
+      <div class="card-name" style="color:var(--dim);">Coming Soon</div>
+      <div class="card-desc">More apps in development.</div>
+      <div class="card-tags"><span class="ctag">2025</span></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="about-strip" id="about">
+  <div class="about-inner">
+    <div class="apoint">
+      <div class="apoint-icon">⚡</div>
+      <div class="apoint-title">Lightweight</div>
+      <div class="apoint-desc">Small installs, no background services. Works on low-end devices.</div>
+    </div>
+    <div class="apoint">
+      <div class="apoint-icon">🔒</div>
+      <div class="apoint-title">Privacy First</div>
+      <div class="apoint-desc">Your data stays on your device. We don't collect or sell anything.</div>
+    </div>
+    <div class="apoint">
+      <div class="apoint-icon">🌍</div>
+      <div class="apoint-title">Built for Everyone</div>
+      <div class="apoint-desc">Designed for India and beyond. Offline-first, always.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>© 2025 MyHapps Labs · All rights reserved</span>
+  <div class="footer-links">
+    <a href="terms.html">Terms & Conditions</a>
+    <a href="mailto:support@myhappslabs.com">themyhappslabs@zohomail.in</a>
+  </div>
+</footer>
+
+</body>
+</html>
