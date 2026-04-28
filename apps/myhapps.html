@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyHapps — Build Your Own Apps</title>
+<title>MyHapps — MyHapps Labs</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#07090E;--bg2:#0C1018;--card:#0F1520;--border:rgba(255,255,255,0.06);--accent:#00FFCC;--dim:#4A5568;--text:#E8EDF5;--mono:'DM Mono',monospace;--head:'Syne',sans-serif;}
@@ -12,75 +12,149 @@ body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:1
 nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(7,9,14,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
 .logo{font-family:var(--head);font-size:18px;font-weight:800;color:var(--accent);text-decoration:none;letter-spacing:-0.02em;}
 .logo span{color:var(--dim);}
-.nav-links{display:flex;gap:28px;}
-.nav-links a{font-size:12px;color:var(--dim);text-decoration:none;letter-spacing:0.05em;transition:color 0.2s;}
-.nav-links a:hover{color:var(--accent);}
+.back{font-size:12px;color:var(--dim);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color 0.2s;}
+.back:hover{color:var(--accent);}
 
-.app-hero{padding:100px 40px;text-align:center;max-width:800px;margin:0 auto;}
-.app-icon{font-size:64px;width:120px;height:120px;background:rgba(0,255,204,0.05);border:1px solid rgba(0,255,204,0.15);border-radius:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 30px;}
-.app-title{font-family:var(--head);font-size:clamp(32px,5vw,56px);font-weight:800;margin-bottom:16px;}
-.app-desc{font-size:16px;color:rgba(232,237,245,0.7);line-height:1.7;margin-bottom:40px;}
+.tabs{position:sticky;top:57px;z-index:90;background:rgba(7,9,14,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;}
+.tab{padding:13px 22px;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:color 0.2s,border-color 0.2s;}
+.tab:hover{color:var(--accent);border-bottom-color:var(--accent);}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
 
-.btn{display:inline-block;background:var(--accent);color:#000;font-family:var(--head);font-weight:700;font-size:14px;padding:16px 32px;border-radius:30px;text-decoration:none;transition:transform 0.2s,box-shadow 0.2s;}
-.btn:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(0,255,204,0.2);}
+.app-hero{padding:50px 40px 36px;max-width:860px;margin:0 auto;display:grid;grid-template-columns:86px 1fr;gap:28px;align-items:start;}
+.app-icon{width:86px;height:86px;border-radius:22px;background:rgba(0,255,204,0.08);border:1px solid rgba(0,255,204,0.15);display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0;}
+.app-name{font-family:var(--head);font-size:clamp(22px,4vw,32px);font-weight:800;margin-bottom:8px;}
+.app-sub{font-size:13px;color:var(--dim);line-height:1.7;margin-bottom:14px;}
+.app-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+.atag{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:4px 12px;border-radius:20px;border:1px solid var(--border);color:var(--dim);}
+.atag.g{color:var(--accent);border-color:rgba(0,255,204,0.2);background:rgba(0,255,204,0.05);}
+.play-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#000;font-family:var(--mono);font-size:13px;font-weight:500;padding:12px 24px;border-radius:10px;text-decoration:none;transition:opacity 0.2s;}
+.play-btn:hover{opacity:0.85;}
 
-.features{background:var(--bg2);padding:80px 40px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-.f-grid{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:30px;}
-.f-card{background:var(--card);padding:30px;border-radius:16px;border:1px solid var(--border);}
-.f-icon{font-size:24px;margin-bottom:15px;}
-.f-title{font-family:var(--head);font-size:18px;font-weight:700;margin-bottom:10px;color:var(--accent);}
-.f-desc{font-size:13px;color:var(--dim);line-height:1.6;}
+.body{max-width:860px;margin:0 auto;padding:0 40px 80px;}
+.sec{border-top:1px solid var(--border);padding:32px 0;}
+.sec-tag{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.sec-title{font-family:var(--head);font-size:20px;font-weight:700;margin-bottom:16px;}
+.sec p{font-size:13px;color:var(--dim);line-height:1.8;margin-bottom:10px;}
+.sec a{color:var(--accent);}
+.sec h3{font-family:var(--head);font-size:14px;font-weight:700;margin:20px 0 8px;}
+.sec ul{padding-left:18px;}
+.sec li{font-size:13px;color:var(--dim);line-height:1.8;margin-bottom:6px;}
 
-footer{padding:28px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin-top:4px;}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;}
+.feat-icon{font-size:20px;margin-bottom:8px;}
+.feat-name{font-family:var(--head);font-size:13px;font-weight:700;margin-bottom:4px;}
+.feat-desc{font-size:11px;color:var(--dim);line-height:1.5;}
+
+/* Privacy link box */
+.privacy-box{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 24px;text-decoration:none;color:inherit;transition:border-color 0.2s;}
+.privacy-box:hover{border-color:rgba(0,255,204,0.3);}
+.privacy-box-left{display:flex;align-items:center;gap:14px;}
+.privacy-box-icon{font-size:24px;}
+.privacy-box-title{font-family:var(--head);font-size:15px;font-weight:700;margin-bottom:3px;}
+.privacy-box-sub{font-size:12px;color:var(--dim);}
+.privacy-box-arrow{color:var(--accent);font-size:20px;}
+
+footer{padding:28px 40px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
 footer span,footer a{font-size:11px;color:var(--dim);}
 footer a{text-decoration:none;transition:color 0.2s;}
 footer a:hover{color:var(--accent);}
+.footer-links{display:flex;gap:20px;}
 
-@media(max-width:640px){nav{padding:14px 20px;}.nav-links{gap:16px;}.app-hero{padding:60px 20px;}.features{padding:50px 20px;}footer{padding:20px;flex-direction:column;}}
+@media(max-width:640px){
+  nav,footer{padding:14px 20px;}
+  .app-hero{padding:36px 20px;grid-template-columns:64px 1fr;gap:16px;}
+  .app-icon{width:64px;height:64px;font-size:30px;}
+  .body{padding:0 20px 60px;}
+  .tab{padding:11px 14px;font-size:10px;}
+}
 </style>
 </head>
 <body>
 
 <nav>
   <a class="logo" href="../index.html">MyHapps<span>Labs</span></a>
-  <div class="nav-links">
-    <a href="../index.html#apps">Apps</a>
-    <a href="../index.html#about">About</a>
-  </div>
+  <a class="back" href="../index.html">← All Apps</a>
 </nav>
+
+<div class="tabs">
+  <a class="tab active" href="myhapps.html">Overview</a>
+  <a class="tab" href="myhapps.html#features">Features</a>
+  <a class="tab" href="myhapps.html#support">Support</a>
+  <a class="tab" href="myhapps-privacy.html">Privacy Policy</a>
+</div>
 
 <div class="app-hero">
   <div class="app-icon">📲</div>
-  <h1 class="app-title">MyHapps</h1>
-  <p class="app-desc">The ultimate sandbox for your mobile device. Write HTML, CSS, and JS to instantly create, run, and share offline mini-apps without touching Android Studio.</p>
-  <a href="#" class="btn">Get it on Google Play</a>
-</div>
-
-<div class="features">
-  <div class="f-grid">
-    <div class="f-card">
-      <div class="f-icon">⚡</div>
-      <div class="f-title">Code Instantly</div>
-      <div class="f-desc">Built-in code editor lets you write and execute web apps natively on your phone.</div>
+  <div>
+    <div class="app-name">MyHapps</div>
+    <div class="app-sub">The ultimate sandbox for your mobile device. Write HTML, CSS, and JS to instantly create, run, and share offline mini-apps without touching Android Studio.</div>
+    <div class="app-tags">
+      <span class="atag g">Free</span>
+      <span class="atag">Android</span>
+      <span class="atag">Offline</span>
+      <span class="atag">v1.0</span>
     </div>
-    <div class="f-card">
-      <div class="f-icon">🌐</div>
-      <div class="f-title">Discover Marketplace</div>
-      <div class="f-desc">Download ready-to-use apps from our community directly to your home screen.</div>
-    </div>
-    <div class="f-card">
-      <div class="f-icon">☁️</div>
-      <div class="f-title">Google Drive Sync</div>
-      <div class="f-desc">Backup your custom apps to your personal Google Drive and never lose your work.</div>
-    </div>
+    <a class="play-btn" href="https://play.google.com/store/apps" target="_blank">↓ Download on Play Store</a>
   </div>
 </div>
 
+<div class="body">
+
+  <div class="sec">
+    <div class="sec-tag">About</div>
+    <p>MyHapps transforms your phone into a complete development sandbox. Create full-fledged utility apps using standard web technologies (HTML, CSS, JavaScript) directly on your device. Run them natively without an internet connection.</p>
+    <p>Discover apps created by others in the marketplace, backup your workspace to Google Drive, and access local storage, sensors, and camera directly from your code.</p>
+  </div>
+
+  <div class="sec" id="features">
+    <div class="sec-tag">Features</div>
+    <div class="sec-title">What it does</div>
+    <div class="feat-grid">
+      <div class="feat"><div class="feat-icon">⚡</div><div class="feat-name">Code Instantly</div><div class="feat-desc">Built-in IDE with syntax highlighting to write apps anywhere.</div></div>
+      <div class="feat"><div class="feat-icon">🌐</div><div class="feat-name">Marketplace</div><div class="feat-desc">Download ready-to-use apps from the community directly to your phone.</div></div>
+      <div class="feat"><div class="feat-icon">☁️</div><div class="feat-name">Drive Sync</div><div class="feat-desc">Backup and restore your custom apps via your personal Google Drive.</div></div>
+      <div class="feat"><div class="feat-name">Premium Perks</div><div class="feat-desc">Upgrade for unlimited app slots, no ads, and access to premium apps.</div></div>
+      <div class="feat"><div class="feat-icon">💾</div><div class="feat-name">Multi-file Support</div><div class="feat-desc">Create index.html, style.css, script.js and easily link them together.</div></div>
+      <div class="feat"><div class="feat-icon">🔒</div><div class="feat-name">Offline First</div><div class="feat-desc">Once downloaded, apps run locally without any internet connection required.</div></div>
+    </div>
+  </div>
+
+  <div class="sec" id="support">
+    <div class="sec-tag">Help</div>
+    <div class="sec-title">Support</div>
+    <p>Having trouble? Email us at <a href="mailto:themyhappslabs@zohomail.in">themyhappslabs@zohomail.in</a> — we reply within 48 hours Mon–Sat.</p>
+    <h3>Common Issues</h3>
+    <ul>
+      <li><strong style="color:var(--text)">Code not running?</strong> — Ensure your main file is set correctly (e.g., index.html) by tapping the settings icon next to the file.</li>
+      <li><strong style="color:var(--text)">Limit reached?</strong> — Free users can only store 3 apps. Upgrade to premium or delete unused apps.</li>
+      <li><strong style="color:var(--text)">Permissions blocked?</strong> — If your HTML app needs camera/location, make sure to grant the permission when prompted by Android.</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <div class="sec-tag">Legal</div>
+    <div class="sec-title">Privacy Policy</div>
+    <a class="privacy-box" href="myhapps-privacy.html">
+      <div class="privacy-box-left">
+        <div class="privacy-box-icon">🔒</div>
+        <div>
+          <div class="privacy-box-title">Privacy Policy</div>
+          <div class="privacy-box-sub">MyHapps App · Last updated April 2026</div>
+        </div>
+      </div>
+      <div class="privacy-box-arrow">→</div>
+    </a>
+  </div>
+
+</div>
+
 <footer>
-  <span>© 2025 MyHapps Labs</span>
+  <span>© 2026 MyHapps Labs</span>
   <div class="footer-links">
-    <a href="../privacy.html">Privacy Policy</a>
-    <a href="mailto:themyhappslabs@zohomail.in">Contact</a>
+    <a href="../index.html">Home</a>
+    <a href="../terms.html">Terms</a>
+    <a href="myhapps-privacy.html">Privacy Policy</a>
   </div>
 </footer>
 
