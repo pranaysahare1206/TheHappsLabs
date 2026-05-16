@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy · MyHapps Labs</title>
+<meta name="robots" content="index, follow">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07090E;--bg2:#0C1018;--card:#0F1520;--border:rgba(255,255,255,0.06);--accent:#00FFCC;--dim:#4A5568;--text:#E8EDF5;--mono:'DM Mono',monospace;--head:'Syne',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;}
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(7,9,14,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.logo{font-family:var(--head);font-size:18px;font-weight:800;color:var(--accent);text-decoration:none;letter-spacing:-0.02em;}
+.logo span{color:var(--dim);}
+.back{font-size:12px;color:var(--dim);text-decoration:none;transition:color .2s;}
+.back:hover{color:var(--accent);}
+.wrap{max-width:760px;margin:0 auto;padding:60px 40px 80px;}
+.page-tag{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+h1{font-family:var(--head);font-size:32px;font-weight:800;margin-bottom:6px;}
+.meta{font-size:12px;color:var(--dim);margin-bottom:36px;}
+.block{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:10px;}
+.block h2{font-family:var(--head);font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px;}
+.block p,.block li{font-size:13px;color:var(--dim);line-height:1.8;margin-bottom:6px;}
+.block ul{padding-left:16px;}
+.block a{color:var(--accent);}
+.not-found{text-align:center;padding:80px 20px;color:var(--dim);}
+.not-found h2{font-family:var(--head);font-size:24px;margin-bottom:10px;}
+footer{padding:28px 40px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+footer span,footer a{font-size:11px;color:var(--dim);text-decoration:none;}
+footer a:hover{color:var(--accent);}
+.fl{display:flex;gap:20px;}
+@media(max-width:640px){nav,footer{padding:14px 18px;}.wrap{padding:40px 18px;}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">MyHapps<span>Labs</span></a>
+  <a class="back" id="back-link" href="index.html">← Back to App</a>
+</nav>
+
+<div class="wrap" id="content">
+  <div class="not-found"><h2>Loading...</h2></div>
+</div>
+
+<footer>
+  <span>© 2026 MyHapps Labs</span>
+  <div class="fl">
+    <a href="index.html">Home</a>
+    <a href="terms.html">Terms &amp; Conditions</a>
+    <a href="mailto:themyhappslabs@zohomail.in">Contact</a>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+// Read ?app=appid from URL
+const params = new URLSearchParams(window.location.search);
+const appId = params.get('app');
+
+// Load data (localStorage overrides data.js)
+const stored = localStorage.getItem('mhl_data');
+const D = stored ? JSON.parse(stored) : SITE_DATA;
+
+const app = appId ? D.apps.find(a => a.id === appId) : null;
+
+if (!app) {
+  document.title = 'Privacy Policy Not Found · MyHapps Labs';
+  document.getElementById('content').innerHTML = `
+    <div class="not-found">
+      <h2>Privacy Policy Not Found</h2>
+      <p>No app found for ID: <strong>${appId || '(none provided)'}</strong></p>
+      <p style="margin-top:12px"><a href="index.html" style="color:var(--accent)">← Back to Home</a></p>
+    </div>`;
+} else {
+  // Update page meta dynamically
+  document.title = `${app.name} — Privacy Policy · MyHapps Labs`;
+  document.querySelector('meta[name="robots"]').setAttribute('content','index, follow');
+
+  // Update back link
+  document.getElementById('back-link').href = `index.html#app/${app.id}`;
+  document.getElementById('back-link').textContent = `← Back to ${app.name}`;
+
+  // Render privacy policy
+  const sectionsHtml = app.privacy.sections.map(s => `
+    <div class="block">
+      <h2>${s.title}</h2>
+      ${s.body ? `<p>${s.body}</p>` : ''}
+      ${s.list ? `<ul>${s.list.map(li => `<li>${li}</li>`).join('')}</ul>` : ''}
+    </div>`).join('');
+
+  document.getElementById('content').innerHTML = `
+    <div class="page-tag">Legal · ${app.name}</div>
+    <h1>${app.name}<br>Privacy Policy</h1>
+    <div class="meta">Last Updated: ${app.privacy.updated}</div>
+    ${sectionsHtml}`;
+}
+</script>
+</body>
+</html>

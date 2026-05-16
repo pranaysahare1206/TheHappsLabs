@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — MyHapps Labs</title>
+<meta name="robots" content="noindex, nofollow">
+<!-- PRIVACY URLS FOR GOOGLE PLAY CONSOLE:
+     MyHapps:        https://yourdomain.com/privacy.html?app=myhapps
+     Passport Photo: https://yourdomain.com/privacy.html?app=passport-photo
+     Any new app:    https://yourdomain.com/privacy.html?app=YOUR-APP-ID
+-->
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07090E;--bg2:#0C1018;--card:#0F1520;--border:rgba(255,255,255,0.06);--accent:#00FFCC;--adim:rgba(0,255,204,0.1);--dim:#4A5568;--text:#E8EDF5;--mono:'DM Mono',monospace;--head:'Syne',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;outline:none;}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;}
+/* Login screen */
+#login-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);z-index:999;}
+.login-box{background:var(--card);border:1px solid var(--border);padding:40px;border-radius:28px;max-width:380px;width:100%;text-align:center;}
+.login-icon{font-size:40px;margin-bottom:16px;}
+.login-box h2{font-family:var(--head);font-size:22px;margin-bottom:6px;}
+.login-box p{font-size:12px;color:var(--dim);margin-bottom:28px;}
+.login-box input{width:100%;background:var(--bg);border:1px solid var(--border);padding:14px;border-radius:12px;color:var(--text);font-family:var(--mono);font-size:18px;text-align:center;letter-spacing:8px;margin-bottom:14px;}
+.login-box input:focus{border-color:var(--accent);}
+.btn-primary{width:100%;background:var(--accent);color:#000;border:none;padding:14px;border-radius:12px;font-family:var(--head);font-weight:700;font-size:13px;text-transform:uppercase;cursor:pointer;transition:opacity .2s;}
+.btn-primary:hover{opacity:.88;}
+.login-hint{font-size:11px;color:var(--dim);margin-top:14px;}
+/* Admin shell */
+#admin-shell{display:none;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(7,9,14,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
+.logo{font-family:var(--head);font-size:18px;font-weight:800;color:var(--accent);}
+.logo span{color:var(--dim);}
+.nl{font-size:11px;color:var(--dim);background:none;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:.1em;transition:color .2s;}
+.nl:hover,.nl.active{color:var(--accent);}
+/* Tab layout */
+.admin-wrap{max-width:1000px;margin:0 auto;padding:40px;}
+.tabs{display:flex;gap:8px;background:var(--bg2);padding:5px;border-radius:14px;width:fit-content;margin-bottom:36px;}
+.tab{padding:9px 22px;border-radius:10px;font-size:11px;font-weight:600;cursor:pointer;background:none;border:none;color:var(--dim);transition:all .2s;text-transform:uppercase;letter-spacing:.06em;}
+.tab.active{background:var(--accent);color:#000;}
+.view{display:none;}
+.view.active{display:block;}
+/* Forms */
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;}
+.card-title{font-family:var(--head);font-size:16px;font-weight:700;margin-bottom:20px;color:var(--accent);}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:16px;}
+.field label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);font-weight:600;}
+.field .hint{font-size:9px;color:#555;font-style:italic;}
+.field input,.field textarea,.field select{background:var(--bg);border:1px solid var(--border);padding:12px 16px;border-radius:11px;color:var(--text);font-family:var(--mono);font-size:12px;transition:border-color .2s;}
+.field input:focus,.field textarea:focus{border-color:var(--accent);}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.row3{display:grid;grid-template-columns:70px 1fr 1fr;gap:16px;}
+.btn{background:var(--accent);color:#000;border:none;padding:13px 28px;border-radius:11px;font-family:var(--head);font-weight:700;font-size:12px;text-transform:uppercase;cursor:pointer;transition:opacity .2s;}
+.btn:hover{opacity:.88;}
+.btn-sm{background:var(--bg2);color:var(--dim);border:1px solid var(--border);padding:6px 14px;border-radius:8px;font-size:10px;cursor:pointer;font-family:var(--mono);transition:all .2s;}
+.btn-sm:hover{color:var(--text);border-color:var(--dim);}
+.btn-del{background:none;border:none;color:#e05;font-size:10px;cursor:pointer;font-weight:700;}
+/* Lists */
+.list-item{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.list-name{font-size:13px;font-weight:700;}
+.list-sub{font-size:10px;color:var(--dim);margin-top:2px;}
+/* two col layout */
+.two-col{display:grid;grid-template-columns:1fr 320px;gap:28px;align-items:start;}
+.sidebar-title{font-family:var(--head);font-size:13px;font-weight:700;margin-bottom:14px;}
+/* help box */
+.help{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:20px;}
+.help h4{font-size:11px;color:var(--accent);text-transform:uppercase;margin-bottom:10px;font-weight:700;}
+.help p{font-size:11px;color:var(--dim);line-height:1.6;}
+.help code{background:rgba(255,255,255,.05);padding:1px 5px;border-radius:3px;color:var(--text);}
+@media(max-width:720px){.two-col{grid-template-columns:1fr;}.row2,.row3{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN SCREEN ═══ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-icon">🔐</div>
+    <h2>Admin Login</h2>
+    <p>Enter today's dynamic password to continue.</p>
+    <form id="login-form">
+      <input type="password" id="pass-input" placeholder="••••••••" autocomplete="off" autofocus>
+      <button type="submit" class="btn-primary">Authorize Access</button>
+    </form>
+    <div class="login-hint" id="login-hint"></div>
+  </div>
+</div>
+
+<!-- ═══ ADMIN SHELL ═══ -->
+<div id="admin-shell">
+  <nav>
+    <div class="logo">MyHapps<span>Labs</span> <span style="font-size:10px;color:var(--accent);margin-left:10px;background:var(--adim);padding:2px 8px;border-radius:4px;">ADMIN</span></div>
+    <div style="display:flex;gap:20px;align-items:center;">
+      <a href="index.html" class="nl" target="_blank">View Site ↗</a>
+      <button class="nl" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="admin-wrap">
+    <div class="tabs">
+      <button class="tab active" data-tab="tab-apps">Apps</button>
+      <button class="tab" data-tab="tab-blogs">Blogs</button>
+      <button class="tab" data-tab="tab-privacy">Privacy</button>
+      <button class="tab" data-tab="tab-settings">Settings</button>
+    </div>
+
+    <!-- ─── APPS TAB ─── -->
+    <div class="view active" id="tab-apps">
+      <div class="two-col">
+        <div>
+          <div class="card">
+            <div class="card-title">+ Publish New App</div>
+            <form id="app-form">
+              <div class="row3">
+                <div class="field"><label>Icon</label><input id="a-icon" value="📱" required></div>
+                <div class="field"><label>App Name</label><input id="a-name" placeholder="MyHapps" required></div>
+                <div class="field"><label>App ID (URL slug)</label><input id="a-id" placeholder="myhapps" required></div>
+              </div>
+              <div class="field"><label>Google Play Link</label><input id="a-link" type="url" placeholder="https://play.google.com/store/apps/details?id=..." required></div>
+              <div class="field"><label>Tags</label><div class="hint">Comma separated — e.g. Free, Android, Offline</div><input id="a-tags" value="Live, Android, Free"></div>
+              <div class="field"><label>Short Card Subtitle</label><div class="hint">Shown on the app card grid (1-2 lines max)</div><input id="a-short" placeholder="The ultimate sandbox for your mobile device..." required></div>
+              <div class="field"><label>About (Full Description)</label><div class="hint">Paragraph 1 | Paragraph 2 — use | to separate paragraphs</div><textarea id="a-about" rows="4" placeholder="Para 1 | Para 2"></textarea></div>
+              <div class="field"><label>Features</label><div class="hint">One per line: <code>Emoji | Title | Short description</code></div><textarea id="a-features" rows="5" placeholder="⚡ | Code Instantly | Built-in IDE with syntax highlighting..."></textarea></div>
+              <div class="field"><label>Support FAQ</label><div class="hint">One per line: <code>Question? | Answer here</code></div><textarea id="a-support" rows="3" placeholder="Code not running? | Check the main file is set to index.html"></textarea></div>
+              <div class="field"><label>Support Email</label><input id="a-email" value="themyhappslabs@zohomail.in"></div>
+              <div class="field"><label>Privacy Policy (Last Updated)</label><input id="a-priv-date" placeholder="April 2026"></div>
+              <div class="field"><label>Privacy Policy Sections</label><div class="hint">One section per line: <code>Section Title | Full content text</code></div><textarea id="a-priv" rows="8" placeholder="1. Introduction | Welcome to MyHapps..."></textarea></div>
+              <button type="submit" class="btn">Publish App</button>
+            </form>
+          </div>
+        </div>
+        <div>
+          <div class="help" style="margin-bottom:20px;">
+            <h4>💡 Tips</h4>
+            <p>• Use <code>|</code> to separate features/support items per line.<br><br>
+            • App ID creates the URL: <code>#app/my-id</code><br><br>
+            • Google Play Privacy URL to paste in Play Console:<br><code>https://yourdomain.com/index.html#app/YOUR-ID/privacy</code><br><br>
+            • Changes auto-save to browser storage.</p>
+          </div>
+          <div class="sidebar-title">Live Apps</div>
+          <div id="apps-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── BLOGS TAB ─── -->
+    <div class="view" id="tab-blogs">
+      <div class="two-col">
+        <div>
+          <div class="card">
+            <div class="card-title">+ Write New Article</div>
+            <form id="blog-form">
+              <div class="field"><label>Title</label><input id="b-title" placeholder="Why offline apps matter in 2026" required></div>
+              <div class="field"><label>Cover Image URL</label><div class="hint">Use Unsplash: https://images.unsplash.com/photo-...?auto=format&fit=crop&q=80&w=800</div><input id="b-img" type="url" placeholder="https://images.unsplash.com/..." required></div>
+              <div class="field"><label>Excerpt</label><div class="hint">SEO-friendly summary (1-2 sentences)</div><textarea id="b-exc" rows="2" required></textarea></div>
+              <div class="field"><label>Full Article Content</label><textarea id="b-content" rows="12" required></textarea></div>
+              <button type="submit" class="btn">Publish Article</button>
+            </form>
+          </div>
+        </div>
+        <div>
+          <div class="sidebar-title">Published Articles</div>
+          <div id="blogs-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PRIVACY TAB ─── -->
+    <div class="view" id="tab-privacy">
+      <div class="card">
+        <div class="card-title">App Privacy Policies</div>
+        <p style="font-size:12px;color:var(--dim);margin-bottom:20px;">Select an app to edit its Privacy Policy. The URL to paste into Google Play Console is shown below.</p>
+        <div id="privacy-app-selector" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;"></div>
+        <div id="privacy-editor-area" style="display:none;">
+          <div style="background:var(--bg2);border:1px solid var(--border);padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:11px;color:var(--accent);">
+            🔗 Google Play URL: <strong id="priv-url-display"></strong>
+          </div>
+          <div class="field"><label>Last Updated</label><input id="priv-date" style="max-width:200px;"></div>
+          <div class="field"><label>Privacy Content</label><div class="hint">Each section on a new line: <code>Section Title | Content text here</code></div><textarea id="priv-content" rows="14"></textarea></div>
+          <button class="btn" onclick="savePrivacy()">Save Privacy Policy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SETTINGS TAB ─── -->
+    <div class="view" id="tab-settings">
+      <div class="card">
+        <div class="card-title">Site Settings</div>
+        <div class="field"><label>Terms & Conditions</label><textarea id="terms-edit" rows="20"></textarea></div>
+        <button class="btn" onclick="saveTerms()">Save Terms</button>
+        <div style="margin-top:32px;border-top:1px solid var(--border);padding-top:24px;">
+          <div style="font-family:var(--head);font-weight:700;margin-bottom:10px;color:#e05;">⚠ Danger Zone</div>
+          <p style="font-size:12px;color:var(--dim);margin-bottom:14px;">Reset all content back to the original data.js defaults.</p>
+          <button class="btn-sm" onclick="resetData()" style="color:#e05;border-color:#e05;">Reset All Content</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /admin-wrap -->
+</div><!-- /admin-shell -->
+
+<script src="data.js"></script>
+<script>
+// ── Dynamic password: 0 + DD + MM + YY + 0 ──
+function getPass() {
+  const d = new Date();
+  return '0' + String(d.getDate()).padStart(2,'0') + String(d.getMonth()+1).padStart(2,'0') + String(d.getFullYear()).slice(-2) + '0';
+}
+
+// Show hint (day portion only so it's not too obvious)
+document.getElementById('login-hint').textContent = 'Hint: password changes daily.';
+
+// Load / save data
+const stored = localStorage.getItem('mhl_data');
+let D = stored ? JSON.parse(stored) : JSON.parse(JSON.stringify(SITE_DATA));
+function save() { localStorage.setItem('mhl_data', JSON.stringify(D)); }
+
+// Auth
+const isAuthed = () => sessionStorage.getItem('mhl_auth') === '1';
+
+document.getElementById('login-form').onsubmit = e => {
+  e.preventDefault();
+  const val = document.getElementById('pass-input').value;
+  if (val === getPass()) {
+    sessionStorage.setItem('mhl_auth', '1');
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-shell').style.display = 'block';
+    initAdmin();
+  } else {
+    document.getElementById('pass-input').value = '';
+    document.getElementById('login-hint').textContent = '✗ Incorrect password. Try again.';
+    document.getElementById('login-hint').style.color = '#e05';
+  }
+};
+
+// Block page if not authed (no direct URL access without login)
+window.onload = () => {
+  if (!isAuthed()) {
+    document.getElementById('admin-shell').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+  } else {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-shell').style.display = 'block';
+    initAdmin();
+  }
+};
+
+function logout() {
+  sessionStorage.removeItem('mhl_auth');
+  location.reload();
+}
+
+// ── Tabs ──
+document.querySelectorAll('.tab').forEach(t => {
+  t.onclick = () => {
+    document.querySelectorAll('.tab,.view').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+  };
+});
+
+// ── Init ──
+function initAdmin() { renderAppsList(); renderBlogsList(); renderPrivacySelector(); loadSettings(); }
+
+// ─── APPS ───
+function renderAppsList() {
+  document.getElementById('apps-list').innerHTML = D.apps.map(a => `
+    <div class="list-item">
+      <div><div class="list-name">${a.icon} ${a.name}</div><div class="list-sub">${a.tags.join(', ')}</div></div>
+      <div>
+        <button class="btn-sm" style="margin-right:6px;" onclick="editApp('${a.id}')">EDIT</button>
+        <button class="btn-del" onclick="deleteApp('${a.id}')">DELETE</button>
+      </div>
+    </div>`).join('') || '<div style="font-size:12px;color:var(--dim)">No apps yet.</div>';
+}
+
+let editingAppId = null;
+
+document.getElementById('app-form').onsubmit = e => {
+  e.preventDefault();
+  const aboutParts = document.getElementById('a-about').value.split('|').map(s=>s.trim()).filter(Boolean);
+  const features = document.getElementById('a-features').value.split('\n').filter(l=>l.includes('|')).map(l=>{
+    const [icon,name,...rest]=l.split('|'); return {icon:icon.trim(),name:name.trim(),desc:rest.join('|').trim()};
+  });
+  const issues = document.getElementById('a-support').value.split('\n').filter(l=>l.includes('|')).map(l=>{
+    const [q,...a]=l.split('|'); return {q:q.trim(),a:a.join('|').trim()};
+  });
+  const privSections = document.getElementById('a-priv').value.split('\n').filter(l=>l.includes('|')).map(l=>{
+    const [title,...body]=l.split('|'); return {title:title.trim(),body:body.join('|').trim()};
+  });
+  const app = {
+    id: document.getElementById('a-id').value.trim(),
+    name: document.getElementById('a-name').value.trim(),
+    icon: document.getElementById('a-icon').value.trim(),
+    tags: document.getElementById('a-tags').value.split(',').map(s=>s.trim()),
+    short: document.getElementById('a-short').value.trim(),
+    link: document.getElementById('a-link').value.trim(),
+    about: aboutParts,
+    features, 
+    support: { email: document.getElementById('a-email').value.trim(), issues },
+    privacy: { updated: document.getElementById('a-priv-date').value.trim(), sections: privSections }
+  };
+  
+  if (editingAppId) {
+    const idx = D.apps.findIndex(a=>a.id===editingAppId);
+    if (idx>=0) D.apps[idx]=app;
+    editingAppId = null;
+    document.querySelector('#tab-apps .card-title').textContent = '+ Publish New App';
+  } else {
+    const idx = D.apps.findIndex(a=>a.id===app.id);
+    if (idx>=0) D.apps[idx]=app; else D.apps.unshift(app);
+  }
+  
+  save(); renderAppsList(); e.target.reset(); renderPrivacySelector();
+  alert(`✓ "${app.name}" published successfully!`);
+};
+
+window.editApp = id => {
+  const a = D.apps.find(x => x.id === id);
+  if (!a) return;
+  editingAppId = id;
+  document.querySelector('#tab-apps .card-title').textContent = '✎ Edit App: ' + a.name;
+  
+  document.getElementById('a-id').value = a.id;
+  document.getElementById('a-name').value = a.name;
+  document.getElementById('a-icon').value = a.icon;
+  document.getElementById('a-tags').value = a.tags.join(', ');
+  document.getElementById('a-short').value = a.short;
+  document.getElementById('a-link').value = a.link;
+  document.getElementById('a-about').value = a.about.join(' | ');
+  document.getElementById('a-features').value = a.features.map(f => `${f.icon} | ${f.name} | ${f.desc}`).join('\n');
+  document.getElementById('a-support').value = a.support.issues.map(i => `${i.q} | ${i.a}`).join('\n');
+  document.getElementById('a-email').value = a.support.email;
+  document.getElementById('a-priv-date').value = a.privacy.updated;
+  document.getElementById('a-priv').value = a.privacy.sections.map(s => `${s.title} | ${s.body||''} ${s.list?'\n  - '+s.list.join('\n  - '):''}`).join('\n');
+  
+  window.scrollTo(0, 0);
+};
+
+window.deleteApp = id => {
+  if (!confirm('Delete this app?')) return;
+  D.apps = D.apps.filter(a=>a.id!==id);
+  save(); renderAppsList();
+};
+
+// ─── BLOGS ───
+function renderBlogsList() {
+  document.getElementById('blogs-list').innerHTML = D.blogs.map(b => `
+    <div class="list-item">
+      <div><div class="list-name">${b.title}</div><div class="list-sub">${b.date}</div></div>
+      <div>
+        <button class="btn-sm" style="margin-right:6px;" onclick="editBlog(${b.id})">EDIT</button>
+        <button class="btn-del" onclick="deleteBlog(${b.id})">DELETE</button>
+      </div>
+    </div>`).join('') || '<div style="font-size:12px;color:var(--dim)">No articles yet.</div>';
+}
+
+let editingBlogId = null;
+
+document.getElementById('blog-form').onsubmit = e => {
+  e.preventDefault();
+  const blog = {
+    id: editingBlogId || Date.now(),
+    title: document.getElementById('b-title').value.trim(),
+    image: document.getElementById('b-img').value.trim(),
+    excerpt: document.getElementById('b-exc').value.trim(),
+    content: document.getElementById('b-content').value.trim(),
+    date: new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})
+  };
+  
+  if (editingBlogId) {
+    const idx = D.blogs.findIndex(b=>b.id===editingBlogId);
+    if (idx>=0) {
+      blog.date = D.blogs[idx].date; // preserve original date on edit
+      D.blogs[idx] = blog;
+    }
+    editingBlogId = null;
+    document.querySelector('#tab-blogs .card-title').textContent = '+ Write New Article';
+  } else {
+    D.blogs.unshift(blog);
+  }
+  
+  save(); renderBlogsList(); e.target.reset();
+  alert('✓ Article published!');
+};
+
+window.editBlog = id => {
+  const b = D.blogs.find(x => x.id === id);
+  if (!b) return;
+  editingBlogId = id;
+  document.querySelector('#tab-blogs .card-title').textContent = '✎ Edit Article';
+  
+  document.getElementById('b-title').value = b.title;
+  document.getElementById('b-img').value = b.image;
+  document.getElementById('b-exc').value = b.excerpt;
+  document.getElementById('b-content').value = b.content;
+  
+  window.scrollTo(0, 0);
+};
+
+window.deleteBlog = id => {
+  D.blogs = D.blogs.filter(b=>b.id!==id);
+  save(); renderBlogsList();
+};
+
+// ─── PRIVACY EDITOR ───
+let currentPrivacyApp = null;
+function renderPrivacySelector() {
+  document.getElementById('privacy-app-selector').innerHTML = D.apps.map(a => `
+    <button class="btn-sm" onclick="openPrivacyEditor('${a.id}')" style="font-size:12px;padding:10px 18px;">${a.icon} ${a.name}</button>`).join('');
+}
+
+window.openPrivacyEditor = id => {
+  currentPrivacyApp = id;
+  const a = D.apps.find(x=>x.id===id);
+  document.getElementById('privacy-editor-area').style.display = 'block';
+  document.getElementById('priv-url-display').textContent = `https://yourdomain.com/privacy.html?app=${id}`;
+  document.getElementById('priv-date').value = a.privacy.updated;
+  document.getElementById('priv-content').value = a.privacy.sections.map(s=>`${s.title} | ${s.body||''} ${s.list?'\n'+s.list.map(li=>`  - ${li}`).join('\n'):''}`).join('\n');
+};
+
+window.savePrivacy = () => {
+  if (!currentPrivacyApp) return;
+  const app = D.apps.find(a=>a.id===currentPrivacyApp);
+  app.privacy.updated = document.getElementById('priv-date').value;
+  app.privacy.sections = document.getElementById('priv-content').value.split('\n').filter(l=>l.includes('|')).map(l=>{
+    const [title,...body]=l.split('|'); return {title:title.trim(),body:body.join('|').trim()};
+  });
+  save(); alert('✓ Privacy Policy saved!');
+};
+
+// ─── SETTINGS ───
+function loadSettings() {
+  document.getElementById('terms-edit').value = D.terms || '';
+}
+window.saveTerms = () => {
+  D.terms = document.getElementById('terms-edit').value;
+  save(); alert('✓ Terms saved!');
+};
+window.resetData = () => {
+  if (!confirm('This will erase all your changes and restore the original content. Are you sure?')) return;
+  localStorage.removeItem('mhl_data');
+  location.reload();
+};
+</script>
+</body>
+</html>

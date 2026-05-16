@@ -3,149 +3,325 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyHapps Labs — Smart Apps, Simple Life</title>
+<title>MyHapps Labs — Professional Offline Android Utilities & Mobile IDE</title>
+<meta name="description" content="MyHapps Labs develops premium, offline-first Android apps. Build custom mobile apps with MyHapps IDE (HTML, CSS, JS, JSON) and run Local LLM AI models privately on your device. Download Simple Passport Photo Maker.">
+<meta name="keywords" content="MyHapps, Mobile IDE, Android Code Editor, Local LLM, Offline AI, Passport Photo Maker, HTML CSS JS JSON Mobile, Private Android Apps, India App Studio">
+<meta property="og:title" content="MyHapps Labs — Smart Apps, Simple Life">
+<meta property="og:description" content="Professional Android utilities that work 100% offline. Build your own apps with MyHapps or create print-ready passport photos instantly.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://yourdomain.com/">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#07090E;--bg2:#0C1018;--card:#0F1520;--border:rgba(255,255,255,0.06);--accent:#00FFCC;--dim:#4A5568;--text:#E8EDF5;--mono:'DM Mono',monospace;--head:'Syne',sans-serif;}
+:root{--bg:#07090E;--bg2:#0C1018;--card:#0F1520;--border:rgba(255,255,255,0.06);--accent:#00FFCC;--adim:rgba(0,255,204,0.1);--dim:#4A5568;--text:#E8EDF5;--mono:'DM Mono',monospace;--head:'Syne',sans-serif;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
 nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(7,9,14,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
-.logo{font-family:var(--head);font-size:18px;font-weight:800;color:var(--accent);text-decoration:none;letter-spacing:-0.02em;}
+.logo{font-family:var(--head);font-size:18px;font-weight:800;color:var(--accent);letter-spacing:-0.02em;cursor:pointer;}
 .logo span{color:var(--dim);}
-.nav-links{display:flex;gap:28px;}
-.nav-links a{font-size:12px;color:var(--dim);text-decoration:none;letter-spacing:0.05em;transition:color 0.2s;}
-.nav-links a:hover{color:var(--accent);}
-.hero{padding:90px 40px 50px;text-align:center;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(0,255,204,0.06) 0%,transparent 70%);pointer-events:none;}
-.hero-label{display:inline-block;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,255,204,0.2);padding:5px 14px;border-radius:20px;margin-bottom:24px;}
-h1{font-family:var(--head);font-size:clamp(38px,6vw,70px);font-weight:800;line-height:1.07;letter-spacing:-0.03em;margin-bottom:16px;}
+.nav-links{display:flex;gap:24px;align-items:center;}
+.nl{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:0.1em;cursor:pointer;background:none;border:none;transition:color .2s;}
+.nl:hover{color:var(--accent);}
+/* pages */
+.page{display:none;max-width:960px;margin:0 auto;padding:60px 40px;}
+.page.active{display:block;animation:fi .4s ease;}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* hero */
+#pg-home{text-align:center;padding-top:90px;}
+.badge{display:inline-block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);border:1px solid var(--adim);padding:5px 16px;border-radius:30px;margin-bottom:22px;}
+h1{font-family:var(--head);font-size:clamp(38px,7vw,76px);font-weight:800;line-height:.95;letter-spacing:-.04em;margin-bottom:18px;}
 h1 em{font-style:normal;color:var(--accent);}
-.hero-sub{font-size:13px;color:var(--dim);line-height:1.8;max-width:420px;margin:0 auto 0;}
-.wrap{max-width:960px;margin:0 auto;padding:60px 40px;}
-.sec-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);margin-bottom:20px;}
-.apps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;}
-.app-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;cursor:pointer;text-decoration:none;color:inherit;display:block;transition:border-color 0.2s,transform 0.18s;position:relative;overflow:hidden;}
-.app-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,204,0.03),transparent);opacity:0;transition:opacity 0.2s;}
-.app-card:hover{border-color:rgba(0,255,204,0.25);transform:translateY(-2px);}
-.app-card:hover::after{opacity:1;}
-.card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.card-icon{width:46px;height:46px;border-radius:12px;background:rgba(0,255,204,0.07);border:1px solid rgba(0,255,204,0.1);display:flex;align-items:center;justify-content:center;font-size:22px;}
-.card-arrow{color:var(--dim);font-size:18px;transition:transform 0.2s,color 0.2s;}
-.app-card:hover .card-arrow{transform:translateX(3px);color:var(--accent);}
-.card-name{font-family:var(--head);font-size:16px;font-weight:700;margin-bottom:6px;}
-.card-desc{font-size:12px;color:var(--dim);line-height:1.7;margin-bottom:14px;}
-.card-tags{display:flex;gap:6px;flex-wrap:wrap;}
-.ctag{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid var(--border);color:var(--dim);}
-.ctag.live{background:rgba(0,255,204,0.07);color:var(--accent);border-color:rgba(0,255,204,0.2);}
-.soon{cursor:default;opacity:0.4;pointer-events:none;}
-.about-strip{border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg2);padding:60px 40px;}
-.about-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;}
-.apoint{padding:20px;background:var(--card);border:1px solid var(--border);border-radius:14px;}
-.apoint-icon{font-size:22px;margin-bottom:10px;}
-.apoint-title{font-family:var(--head);font-size:15px;font-weight:700;margin-bottom:6px;}
-.apoint-desc{font-size:12px;color:var(--dim);line-height:1.6;}
-footer{padding:28px 40px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
-footer span,footer a{font-size:11px;color:var(--dim);}
-footer a{text-decoration:none;transition:color 0.2s;}
-footer a:hover{color:var(--accent);}
-.footer-links{display:flex;gap:20px;}
-@media(max-width:640px){nav{padding:14px 20px;}.nav-links{gap:16px;}.hero{padding:70px 20px 40px;}.wrap{padding:40px 20px;}.about-strip{padding:40px 20px;}.about-inner{grid-template-columns:1fr;}footer{padding:20px;flex-direction:column;}}
+.hero-sub{font-size:13px;color:var(--dim);max-width:420px;margin:0 auto 60px;}
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px;}
+.pillar{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:28px;}
+.pillar-icon{font-size:22px;margin-bottom:12px;}
+.pillar-title{font-family:var(--head);font-size:15px;font-weight:700;margin-bottom:6px;}
+.pillar-desc{font-size:12px;color:var(--dim);line-height:1.6;}
+/* apps grid */
+.sec-head{margin-bottom:40px;}
+.sec-head h2{font-family:var(--head);font-size:34px;font-weight:800;}
+.sec-head h2 span{color:var(--accent);}
+.sec-head p{color:var(--dim);font-size:13px;margin-top:6px;}
+.apps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.app-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:26px;cursor:pointer;transition:all .25s;}
+.app-card:hover{border-color:rgba(0,255,204,.3);transform:translateY(-4px);box-shadow:0 16px 36px -16px rgba(0,255,204,.12);}
+.ac-icon{width:48px;height:48px;background:var(--adim);border:1px solid rgba(0,255,204,.12);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;}
+.ac-name{font-family:var(--head);font-size:17px;font-weight:700;margin-bottom:6px;}
+.ac-desc{font-size:12px;color:var(--dim);line-height:1.65;margin-bottom:14px;}
+.tags{display:flex;gap:6px;flex-wrap:wrap;}
+.tag{font-size:9px;text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:20px;border:1px solid var(--adim);color:var(--accent);background:var(--adim);}
+/* app detail */
+.app-hero{display:grid;grid-template-columns:86px 1fr;gap:26px;align-items:start;margin-bottom:40px;}
+.ah-icon{width:86px;height:86px;border-radius:22px;background:var(--adim);border:1px solid rgba(0,255,204,.15);display:flex;align-items:center;justify-content:center;font-size:40px;flex-shrink:0;}
+.ah-name{font-family:var(--head);font-size:28px;font-weight:800;margin-bottom:8px;}
+.ah-sub{font-size:13px;color:var(--dim);line-height:1.7;margin-bottom:14px;}
+.play-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#000;font-family:var(--mono);font-size:12px;font-weight:500;padding:11px 22px;border-radius:10px;transition:opacity .2s;}
+.play-btn:hover{opacity:.85;}
+.sec{border-top:1px solid var(--border);padding:28px 0;}
+.sec-tag{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.sec-title{font-family:var(--head);font-size:18px;font-weight:700;margin-bottom:14px;}
+.sec p{font-size:13px;color:var(--dim);line-height:1.8;margin-bottom:8px;}
+.sec ul{padding-left:18px;}
+.sec li{font-size:13px;color:var(--dim);line-height:1.8;margin-bottom:6px;}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:6px;}
+.feat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+.feat-icon{font-size:18px;margin-bottom:8px;}
+.feat-name{font-family:var(--head);font-size:13px;font-weight:700;margin-bottom:4px;}
+.feat-desc{font-size:11px;color:var(--dim);line-height:1.5;}
+.privacy-box{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 22px;cursor:pointer;transition:border-color .2s;}
+.privacy-box:hover{border-color:rgba(0,255,204,.3);}
+/* blog */
+.blogs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.blog-card{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;cursor:pointer;transition:all .25s;}
+.blog-card:hover{transform:translateY(-4px);border-color:var(--adim);}
+.blog-img{width:100%;height:170px;object-fit:cover;opacity:.6;}
+.blog-body{padding:20px;}
+.blog-date{font-size:9px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;}
+.blog-title{font-family:var(--head);font-size:17px;font-weight:700;margin-bottom:8px;}
+.blog-exc{font-size:12px;color:var(--dim);}
+.blog-full-img{width:100%;height:300px;object-fit:cover;border-radius:24px;margin-bottom:32px;opacity:.8;}
+.blog-text{font-family:sans-serif;font-size:15px;line-height:1.85;color:var(--text);white-space:pre-wrap;}
+/* privacy page */
+.pp-block{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 22px;margin-bottom:10px;}
+.pp-block h2{font-family:var(--head);font-size:14px;font-weight:700;color:var(--accent);margin-bottom:10px;}
+.pp-block p,.pp-block li{font-size:12px;color:var(--dim);line-height:1.8;margin-bottom:6px;}
+.pp-block ul{padding-left:16px;}
+.pp-block a{color:var(--accent);}
+/* terms */
+.terms-body{font-size:13px;color:var(--dim);line-height:1.9;white-space:pre-wrap;}
+/* back btn */
+.back-btn{font-size:12px;color:var(--dim);background:none;border:none;cursor:pointer;margin-bottom:24px;display:inline-flex;align-items:center;gap:6px;transition:color .2s;}
+.back-btn:hover{color:var(--accent);}
+/* footer */
+footer{padding:40px;border-top:1px solid var(--border);margin-top:60px;}
+.footer-in{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+footer span,footer a,footer button{font-size:11px;color:var(--dim);background:none;border:none;cursor:pointer;transition:color .2s;}
+footer a:hover,footer button:hover{color:var(--accent);}
+.fl{display:flex;gap:22px;}
+@media(max-width:640px){
+  nav{padding:13px 18px;}.nav-links{gap:14px;}
+  .page{padding:40px 18px;}
+  #pg-home{padding-top:60px;}
+  .app-hero{grid-template-columns:60px 1fr;gap:16px;}
+  .ah-icon{width:60px;height:60px;font-size:28px;}
+}
 </style>
 </head>
 <body>
 
 <nav>
-  <a class="logo" href="index.html">MyHapps<span>Labs</span></a>
+  <div class="logo" id="logo-el">MyHapps<span>Labs</span></div>
   <div class="nav-links">
-    <a href="#apps">Apps</a>
-    <a href="#about">About</a>
-    <a href="mailto:themyhappslabs@zohomail.in">Contact</a>
+    <button class="nl" onclick="go('home')">Home</button>
+    <button class="nl" onclick="go('apps')">Apps</button>
+    <button class="nl" onclick="go('blogs')">Blog</button>
+    <button class="nl" onclick="go('terms')">Terms</button>
+    <a href="mailto:themyhappslabs@zohomail.in" class="nl">Contact</a>
   </div>
 </nav>
 
-<div class="hero">
-  <div class="hero-label">Independent App Studio · India</div>
+<!-- HOME -->
+<div class="page active" id="pg-home">
+  <div class="badge">Independent App Studio · India</div>
   <h1>Simple Apps.<br><em>Real Problems.</em></h1>
   <p class="hero-sub">Lightweight Android utilities that work offline, respect your privacy, and do exactly what they say.</p>
-</div>
-
-<div class="wrap" id="apps">
-  <div class="sec-label">Our Apps</div>
-  <div class="apps-grid">
-
-    <!-- ══ APP 1 ══ -->
-    <a class="app-card" href="apps/passport-photo-maker.html">
-      <div class="card-top">
-        <div class="card-icon">📸</div>
-        <span class="card-arrow">→</span>
-      </div>
-      <div class="card-name">Simple Passport Photo Maker</div>
-      <div class="card-desc">Crop, enhance and print professional passport photos for any country — all offline, 600 DPI quality.</div>
-      <div class="card-tags">
-        <span class="ctag live">Live</span>
-        <span class="ctag">Android</span>
-        <span class="ctag">Free</span>
-      </div>
-    </a>
-
-
-
-    <!-- ══ APP 2 ══ -->
-    <a class="app-card" href="apps/myhapps.html">
-      <div class="card-top">
-        <div class="card-icon">📲</div>
-        <span class="card-arrow">→</span>
-      </div>
-      <div class="card-name">MyHapps</div>
-      <div class="card-desc">The ultimate sandbox. Write HTML/JS on your phone to instantly build, run, and share offline mini-apps without Android Studio.</div>
-      <div class="card-tags">
-        <span class="ctag live">Live</span>
-        <span class="ctag">Android</span>
-        <span class="ctag">Code IDE</span>
-        <span class="ctag">Free</span>
-      </div>
-    </a>
-
-    <!-- ══ ADD NEW APP CARD HERE — copy block above, change href to apps/your-app-name.html ══ -->
-
-    <!-- Placeholder -->
-    <div class="app-card soon">
-      <div class="card-top"><div class="card-icon" style="font-size:16px;color:var(--dim);">＋</div></div>
-      <div class="card-name" style="color:var(--dim);">Coming Soon</div>
-      <div class="card-desc">More apps in development.</div>
-      <div class="card-tags"><span class="ctag">2025</span></div>
-    </div>
-
+  <div class="pillars">
+    <div class="pillar"><div class="pillar-icon">⚡</div><div class="pillar-title">Lightweight</div><div class="pillar-desc">Small installs, no background services. Works on low-end devices.</div></div>
+    <div class="pillar"><div class="pillar-icon">🔒</div><div class="pillar-title">Privacy First</div><div class="pillar-desc">Your data stays on your device. We don't collect or sell anything.</div></div>
+    <div class="pillar"><div class="pillar-icon">🌍</div><div class="pillar-title">Built for Everyone</div><div class="pillar-desc">Designed for India and beyond. Offline-first, always.</div></div>
   </div>
 </div>
 
-<div class="about-strip" id="about">
-  <div class="about-inner">
-    <div class="apoint">
-      <div class="apoint-icon">⚡</div>
-      <div class="apoint-title">Lightweight</div>
-      <div class="apoint-desc">Small installs, no background services. Works on low-end devices.</div>
-    </div>
-    <div class="apoint">
-      <div class="apoint-icon">🔒</div>
-      <div class="apoint-title">Privacy First</div>
-      <div class="apoint-desc">Your data stays on your device. We don't collect or sell anything.</div>
-    </div>
-    <div class="apoint">
-      <div class="apoint-icon">🌍</div>
-      <div class="apoint-title">Built for Everyone</div>
-      <div class="apoint-desc">Designed for India and beyond. Offline-first, always.</div>
-    </div>
-  </div>
+<!-- APPS LIST -->
+<div class="page" id="pg-apps">
+  <div class="sec-head"><h2>Our <span>Apps</span></h2><p>Curated tools that solve specific problems without the bloat.</p></div>
+  <div class="apps-grid" id="apps-grid"></div>
+</div>
+
+<!-- APP DETAIL -->
+<div class="page" id="pg-app">
+  <button class="back-btn" onclick="go('apps')">← All Apps</button>
+  <div id="app-detail-inner"></div>
+</div>
+
+<!-- APP PRIVACY -->
+<div class="page" id="pg-app-privacy">
+  <button class="back-btn" id="app-priv-back">← Back to App</button>
+  <div id="app-privacy-inner"></div>
+</div>
+
+<!-- BLOGS -->
+<div class="page" id="pg-blogs">
+  <div class="sec-head"><h2>Labs <span>Blog</span></h2><p>Insights, tutorials, and updates from our studio.</p></div>
+  <div class="blogs-grid" id="blogs-grid"></div>
+</div>
+
+<!-- BLOG DETAIL -->
+<div class="page" id="pg-blog">
+  <button class="back-btn" onclick="go('blogs')">← All Articles</button>
+  <div id="blog-detail-inner"></div>
+</div>
+
+<!-- TERMS -->
+<div class="page" id="pg-terms">
+  <div class="sec-head"><h2>Terms &amp; <span>Conditions</span></h2></div>
+  <div class="terms-body" id="terms-body"></div>
 </div>
 
 <footer>
-  <span>© 2025 MyHapps Labs · All rights reserved</span>
-  <div class="footer-links">
-    <a href="terms.html">Terms & Conditions</a>
-    <a href="mailto:support@myhappslabs.com">themyhappslabs@zohomail.in</a>
+  <div class="footer-in">
+    <span>© 2026 MyHapps Labs · All rights reserved</span>
+    <div class="fl">
+      <button onclick="go('terms')">Terms</button>
+      <a href="mailto:themyhappslabs@zohomail.in">themyhappslabs@zohomail.in</a>
+    </div>
   </div>
 </footer>
 
+<script src="data.js"></script>
+<script>
+// ── data from data.js (SITE_DATA) ──
+// Override with localStorage edits made in admin
+const saved = localStorage.getItem('mhl_data');
+const D = saved ? JSON.parse(saved) : SITE_DATA;
+
+// ── Router ──
+function go(page, id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  if (page === 'app' && id) {
+    renderApp(id);
+    document.getElementById('pg-app').classList.add('active');
+  } else if (page === 'app-privacy' && id) {
+    renderAppPrivacy(id);
+    document.getElementById('pg-app-privacy').classList.add('active');
+  } else if (page === 'blog' && id) {
+    renderBlog(id);
+    document.getElementById('pg-blog').classList.add('active');
+  } else {
+    const el = document.getElementById('pg-' + page);
+    if (el) el.classList.add('active');
+  }
+  window.scrollTo(0, 0);
+}
+
+// ── Renderers ──
+function renderApps() {
+  document.getElementById('apps-grid').innerHTML = D.apps.map(a => `
+    <div class="app-card" onclick="go('app','${a.id}')">
+      <div class="ac-icon">${a.icon}</div>
+      <div class="ac-name">${a.name}</div>
+      <div class="ac-desc">${a.short}</div>
+      <div class="tags">${a.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+    </div>`).join('');
+}
+
+function renderApp(id) {
+  const a = D.apps.find(x => x.id === id);
+  if (!a) return;
+  document.getElementById('app-priv-back').onclick = () => go('app', id);
+  document.getElementById('app-detail-inner').innerHTML = `
+    <div class="app-hero">
+      <div class="ah-icon">${a.icon}</div>
+      <div>
+        <div class="ah-name">${a.name}</div>
+        <div class="ah-sub">${a.short}</div>
+        <div class="tags" style="margin-bottom:16px">${a.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        <a class="play-btn" href="${a.link}" target="_blank">↓ Download on Play Store</a>
+      </div>
+    </div>
+    <div class="sec">
+      <div class="sec-tag">About</div>
+      ${a.about.map(p=>`<p>${p}</p>`).join('')}
+    </div>
+    <div class="sec" id="features">
+      <div class="sec-tag">Features</div>
+      <div class="sec-title">What it does</div>
+      <div class="feat-grid">${a.features.map(f=>`<div class="feat"><div class="feat-icon">${f.icon}</div><div class="feat-name">${f.name}</div><div class="feat-desc">${f.desc}</div></div>`).join('')}</div>
+    </div>
+    <div class="sec" id="support">
+      <div class="sec-tag">Help</div>
+      <div class="sec-title">Support</div>
+      <p>Having trouble? Email us at <a href="mailto:${a.support.email}" style="color:var(--accent)">${a.support.email}</a> — we reply within 48 hours Mon–Sat.</p>
+      <h3 style="font-family:var(--head);font-size:14px;font-weight:700;margin:18px 0 8px;">Common Issues</h3>
+      <ul>${a.support.issues.map(i=>`<li><strong style="color:var(--text)">${i.q}</strong> — ${i.a}</li>`).join('')}</ul>
+    </div>
+    <div class="sec">
+      <div class="sec-tag">Legal</div>
+      <div class="sec-title">Privacy Policy</div>
+      <a class="privacy-box" href="privacy.html?app=${a.id}">
+        <div style="display:flex;align-items:center;gap:14px">
+          <span style="font-size:22px">🔒</span>
+          <div>
+            <div style="font-family:var(--head);font-weight:700">Privacy Policy</div>
+            <div style="font-size:12px;color:var(--dim)">${a.name} · Last updated ${a.privacy.updated}</div>
+          </div>
+        </div>
+        <span style="color:var(--accent)">→</span>
+      </a>
+    </div>`;
+}
+
+function renderAppPrivacy(id) {
+  const a = D.apps.find(x => x.id === id);
+  if (!a) return;
+  document.getElementById('app-priv-back').onclick = () => go('app', id);
+  document.getElementById('app-privacy-inner').innerHTML = `
+    <div class="sec-tag">Legal</div>
+    <h1 style="font-family:var(--head);font-size:28px;font-weight:800;margin-bottom:6px">${a.name} Privacy Policy</h1>
+    <p style="font-size:12px;color:var(--dim);margin-bottom:32px">Last Updated: ${a.privacy.updated}</p>
+    ${a.privacy.sections.map(s=>`
+      <div class="pp-block">
+        <h2>${s.title}</h2>
+        ${s.body ? `<p>${s.body}</p>` : ''}
+        ${s.list ? `<ul>${s.list.map(li=>`<li>${li}</li>`).join('')}</ul>` : ''}
+      </div>`).join('')}`;
+}
+
+function renderBlogs() {
+  document.getElementById('blogs-grid').innerHTML = D.blogs.map(b => `
+    <div class="blog-card" onclick="go('blog',${b.id})">
+      <img class="blog-img" src="${b.image}" alt="${b.title}" loading="lazy">
+      <div class="blog-body">
+        <div class="blog-date">${b.date}</div>
+        <div class="blog-title">${b.title}</div>
+        <div class="blog-exc">${b.excerpt}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderBlog(id) {
+  const b = D.blogs.find(x => x.id == id);
+  if (!b) return;
+  document.getElementById('blog-detail-inner').innerHTML = `
+    <img class="blog-full-img" src="${b.image}" alt="${b.title}">
+    <div class="blog-date" style="margin-bottom:10px">${b.date}</div>
+    <h1 style="font-family:var(--head);font-size:28px;font-weight:800;margin-bottom:28px">${b.title}</h1>
+    <div class="blog-text">${b.content}</div>`;
+}
+
+function renderTerms() {
+  document.getElementById('terms-body').textContent = D.terms;
+}
+
+// ── Hidden Admin Trigger: type "happsadmin" anywhere ──
+let seq = '';
+document.addEventListener('keydown', e => {
+  seq = (seq + e.key).slice(-10);
+  if (seq === 'happsadmin') {
+    seq = '';
+    window.location.href = 'admin.html';
+  }
+});
+
+// ── Init ──
+renderApps(); renderBlogs(); renderTerms();
+
+// Handle hash deep links: index.html#app/myhapps
+const h = window.location.hash.replace('#','');
+if (h.startsWith('app/')) {
+  const parts = h.split('/');
+  go('app', parts[1]);
+}
+</script>
 </body>
 </html>
