@@ -22,12 +22,17 @@ export async function onRequestPost(context) {
   try {
     const body = await context.request.json();
     
-    // Server-side password verification
-    const d = new Date();
-    const expectedPass = '0' + String(d.getDate()).padStart(2,'0') + String(d.getMonth()+1).padStart(2,'0') + String(d.getFullYear()).slice(-2) + '0';
+    // Server-side password verification (timezone safe)
+    const getPassForDate = (date) => '0' + String(date.getDate()).padStart(2,'0') + String(date.getMonth()+1).padStart(2,'0') + String(date.getFullYear()).slice(-2) + '0';
     
-    if (body.password !== expectedPass) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { 
+    const d = new Date();
+    const dMinus1 = new Date(d.getTime() - 86400000);
+    const dPlus1 = new Date(d.getTime() + 86400000);
+    
+    const validPasses = [getPassForDate(d), getPassForDate(dMinus1), getPassForDate(dPlus1)];
+    
+    if (!validPasses.includes(body.password)) {
+      return new Response(JSON.stringify({ error: `Unauthorized. Provided: ${body.password}, Expected one of: ${validPasses.join(', ')}` }), { 
         status: 401,
         headers: { 'Content-Type': 'application/json' }
       });
