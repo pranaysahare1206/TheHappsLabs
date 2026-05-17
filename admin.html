@@ -189,6 +189,13 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:16px 4
         <div class="field"><label>Terms & Conditions</label><textarea id="terms-edit" rows="20"></textarea></div>
         <button class="btn" onclick="saveTerms()">Save Terms</button>
         <div style="margin-top:32px;border-top:1px solid var(--border);padding-top:24px;">
+          <div style="font-family:var(--head);font-weight:700;margin-bottom:10px;color:var(--accent);">🚀 Export for Cloudflare Pages</div>
+          <p style="font-size:12px;color:var(--dim);margin-bottom:14px;">Since Cloudflare Pages is static, your changes are only saved in this browser. To make them live for everyone, generate the code here and paste it into your <strong>data.js</strong> file on GitHub.</p>
+          <button class="btn" onclick="exportData()" style="margin-bottom:14px;">Generate data.js Code</button>
+          <textarea id="export-area" rows="10" style="display:none;width:100%;font-size:10px;white-space:pre;" readonly></textarea>
+        </div>
+
+        <div style="margin-top:32px;border-top:1px solid var(--border);padding-top:24px;">
           <div style="font-family:var(--head);font-weight:700;margin-bottom:10px;color:#e05;">⚠ Danger Zone</div>
           <p style="font-size:12px;color:var(--dim);margin-bottom:14px;">Reset all content back to the original data.js defaults.</p>
           <button class="btn-sm" onclick="resetData()" style="color:#e05;border-color:#e05;">Reset All Content</button>
@@ -441,6 +448,16 @@ window.resetData = () => {
   if (!confirm('This will erase all your changes and restore the original content. Are you sure?')) return;
   localStorage.removeItem('mhl_data');
   location.reload();
+};
+
+window.exportData = () => {
+  const code = `const SITE_DATA = ${JSON.stringify(D, null, 2)};`;
+  const area = document.getElementById('export-area');
+  area.value = code;
+  area.style.display = 'block';
+  area.select();
+  document.execCommand('copy');
+  alert('✓ Code generated and copied to clipboard!\n\nNow open data.js in your GitHub repository, replace everything with this code, and commit the changes.');
 };
 </script>
 </body>
