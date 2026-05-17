@@ -180,10 +180,8 @@ footer a:hover,footer button:hover{color:var(--accent);}
 
 <script src="data.js"></script>
 <script>
-// ── data from data.js (SITE_DATA) ──
-// Override with localStorage edits made in admin
-const saved = localStorage.getItem('mhl_data');
-const D = saved ? JSON.parse(saved) : SITE_DATA;
+// ── data from data.js (SITE_DATA fallback) ──
+let D = SITE_DATA;
 
 // ── Router ──
 function go(page, id) {
@@ -314,14 +312,26 @@ document.addEventListener('keydown', e => {
 });
 
 // ── Init ──
-renderApps(); renderBlogs(); renderTerms();
+async function initSite() {
+  try {
+    const res = await fetch('/api/data');
+    if (res.ok) {
+      const kvData = await res.json();
+      if (kvData && kvData.apps) D = kvData;
+    }
+  } catch(e) { console.log('Using static fallback data'); }
 
-// Handle hash deep links: index.html#app/myhapps
-const h = window.location.hash.replace('#','');
-if (h.startsWith('app/')) {
-  const parts = h.split('/');
-  go('app', parts[1]);
+  renderApps(); renderBlogs(); renderTerms();
+
+  // Handle hash deep links: index.html#app/myhapps
+  const h = window.location.hash.replace('#','');
+  if (h.startsWith('app/')) {
+    const parts = h.split('/');
+    go('app', parts[1]);
+  }
 }
+
+initSite();
 </script>
 </body>
 </html>

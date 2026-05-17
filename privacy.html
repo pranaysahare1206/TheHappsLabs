@@ -59,11 +59,18 @@ footer a:hover{color:var(--accent);}
 const params = new URLSearchParams(window.location.search);
 const appId = params.get('app');
 
-// Load data (localStorage overrides data.js)
-const stored = localStorage.getItem('mhl_data');
-const D = stored ? JSON.parse(stored) : SITE_DATA;
+// Load data async
+async function initPrivacy() {
+  let D = SITE_DATA; // Fallback
+  try {
+    const res = await fetch('/api/data');
+    if (res.ok) {
+      const kvData = await res.json();
+      if (kvData && kvData.apps) D = kvData;
+    }
+  } catch(e) {}
 
-const app = appId ? D.apps.find(a => a.id === appId) : null;
+  const app = appId ? D.apps.find(a => a.id === appId) : null;
 
 if (!app) {
   document.title = 'Privacy Policy Not Found · MyHapps Labs';
@@ -96,6 +103,8 @@ if (!app) {
     <div class="meta">Last Updated: ${app.privacy.updated}</div>
     ${sectionsHtml}`;
 }
+}
+initPrivacy();
 </script>
 </body>
 </html>
