@@ -221,13 +221,22 @@ document.getElementById('login-hint').textContent = 'Hint: password changes dail
 let D = JSON.parse(JSON.stringify(SITE_DATA)); // Fallback
 
 async function initData() {
+  let loadedFromKV = false;
   try {
     const res = await fetch('/api/data');
     if (res.ok) {
       const kvData = await res.json();
-      if (kvData && kvData.apps) D = kvData;
+      if (kvData && kvData.apps) {
+        D = kvData;
+        loadedFromKV = true;
+      }
     }
   } catch(e) {
+    console.error("Error fetching KV data:", e);
+  }
+  
+  // If KV fails (or is not setup yet), fallback to localStorage
+  if (!loadedFromKV) {
     const stored = localStorage.getItem('mhl_data');
     if (stored) D = JSON.parse(stored);
   }
@@ -245,8 +254,12 @@ async function save() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password: pass, data: D })
     });
-    if (!res.ok) console.error("Failed to save to KV API");
+    if (!res.ok) {
+      const txt = await res.text();
+      alert("⚠️ Saved to browser, but failed to save to Cloudflare Database. Did you set up the KV Namespace binding correctly? Error: " + txt);
+    }
   } catch(e) {
+    alert("⚠️ Network error while saving to Cloudflare.");
     console.error("KV API error", e);
   }
 }
